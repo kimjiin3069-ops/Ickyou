@@ -49,3 +49,11 @@
 /* Review titles and photo stories share an equal-height reading area. */
 #review-gallery .review-card,#review-preview .review-card{grid-template-rows:400px 270px;height:670px}#review-gallery .review-copy,#review-preview .review-copy{height:270px;padding:22px 24px;overflow:visible}#review-gallery .review-copy h3,#review-preview .review-copy h3{margin:8px 0 0;font-size:18px;line-height:1.4}.photo-story-label{display:block!important;font-size:9px!important;letter-spacing:.3px;line-height:1.6!important;color:#8e6b75!important;margin:4px 0 0!important}#review-gallery .review-copy p,#review-preview .review-copy p{display:block;font-size:12px;line-height:1.85;margin:13px 0 0;color:#555}.photo-lightbox>p{white-space:pre-line;text-align:left;font-size:12px;line-height:1.9;padding:5px 12px}
 @media(max-width:767px){#review-gallery .review-card,#review-preview .review-card{grid-template-rows:420px 270px;height:690px}#review-gallery .review-copy,#review-preview .review-copy{height:270px}}
+
+/* Fit review text without reserving empty space beneath short captions. */
+#review-gallery,#review-preview{grid-auto-rows:1fr}
+#review-gallery .review-card,#review-preview .review-card{grid-template-rows:400px 1fr;height:100%}
+#review-gallery .review-copy,#review-preview .review-copy{height:auto;padding:22px 24px;align-self:stretch}
+#reviews{padding-bottom:40px}
+#reviews+.final-cta{padding-top:60px}
+@media(max-width:767px){#review-gallery .review-card,#review-preview .review-card{grid-template-rows:420px 1fr;height:100%}#reviews{padding-bottom:32px}#reviews+.final-cta{padding-top:44px}}

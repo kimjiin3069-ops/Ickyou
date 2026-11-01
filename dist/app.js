@@ -36,6 +36,38 @@ document.querySelectorAll('[data-open]').forEach(button=>button.onclick=()=>{con
 dialog.querySelector('.close').onclick=()=>dialog.close();
 dialog.addEventListener('click',event=>{if(event.target===dialog){const box=dialog.getBoundingClientRect();if(event.clientX<box.left||event.clientX>box.right||event.clientY<box.top||event.clientY>box.bottom)dialog.close()}});
 document.querySelector('#product-options').onsubmit=event=>event.preventDefault();
-document.querySelector('#product-cta').onclick=event=>{if(!document.querySelector('#product-options').reportValidity()){event.preventDefault();return}dialog.close()};
+const dmDialog=document.querySelector('#dm-dialog');
+const dmMessage=document.querySelector('#dm-message');
+function showDmGuide(message=''){
+ document.querySelector('#dm-message-group').hidden=!message;
+ document.querySelector('#copy-order').hidden=!message;
+ document.querySelector('#choose-product').hidden=!!message;
+ dmMessage.value=message;
+ document.querySelector('#copy-order').textContent='문의 내용 복사';
+ document.querySelector('#dm-copy-status').textContent='';
+ dmDialog.showModal();
+}
+customModel.addEventListener('input',()=>customModel.setCustomValidity(''));
+document.querySelector('#product-cta').onclick=()=>{
+ customModel.setCustomValidity(modelSelect.value==='other'&&!customModel.value.trim()?'기종을 입력해 주세요.':'');
+ if(!document.querySelector('#product-options').reportValidity())return;
+ const model=modelSelect.value==='other'?customModel.value.trim():modelSelect.value;
+ const count=Number(quantity.value);
+ const subtotal=Number(activeProduct.price.replace(/[^0-9]/g,''))*count;
+ showDmGuide(['안녕하세요! ICKYOU 케이스 구매 문의드립니다.','',`제품: ${activeProduct.name}`,`휴대폰 기종: ${model}`,`수량: ${count}개`,`상품금액: ${formatPrice(subtotal)}`,'배송비: 3,000원',`합계: ${formatPrice(subtotal+3000)}`].join('\n'));
+};
+document.querySelectorAll('a.pill.dark[href="#collection"]').forEach(button=>button.onclick=event=>{event.preventDefault();showDmGuide()});
+dmDialog.querySelector('.close').onclick=()=>dmDialog.close();
+document.querySelector('#choose-product').onclick=()=>dmDialog.close();
+dmDialog.addEventListener('click',event=>{if(event.target===dmDialog){const box=dmDialog.getBoundingClientRect();if(event.clientX<box.left||event.clientX>box.right||event.clientY<box.top||event.clientY>box.bottom)dmDialog.close()}});
+document.querySelector('#copy-order').onclick=async()=>{
+ let copied=false;
+ try{await navigator.clipboard.writeText(dmMessage.value);copied=true}catch{
+  dmMessage.focus();dmMessage.select();
+  try{copied=document.execCommand('copy')}catch{}
+ }
+ document.querySelector('#copy-order').textContent=copied?'복사 완료 ✓':'문의 내용 복사';
+ document.querySelector('#dm-copy-status').textContent=copied?'복사했어요. 인스타그램 DM에 붙여넣어 보내 주세요.':'문의 내용을 길게 누르거나 선택해서 복사해 주세요.';
+};
 let timer;function toast(text){const el=document.querySelector('#toast');el.textContent=text;el.style.display='block';clearTimeout(timer);timer=setTimeout(()=>el.style.display='none',3500)}document.querySelectorAll('.unlinked').forEach(button=>button.onclick=()=>toast(button.dataset.label+' 링크를 준비 중입니다.'));
 sync();

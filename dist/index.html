@@ -1,11 +1,11 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pickyou — Pick Your Cute.</title><meta name="description" content="Pickyou — 귀여운 건 직접 골라. 직접 만든 오리지널 캐릭터 폰케이스."><link rel="stylesheet" href="style.css"><style id="ticker-motion">
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pickyou — Pick Your Cute.</title><meta name="description" content="Pickyou — 귀여운 건 직접 골라. 직접 만든 오리지널 캐릭터 폰케이스."><link rel="stylesheet" href="style.css?v=20261106b"><style id="ticker-motion">
 .ticker{display:block;overflow:hidden}
 .ticker-track{display:flex;width:max-content;animation:ickyou-marquee 26s linear infinite;will-change:transform}
 .ticker-group{display:flex;flex-shrink:0;align-items:center;justify-content:space-around;gap:35px;min-width:100vw;padding-right:35px;white-space:nowrap}
 @keyframes ickyou-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media(max-width:767px){.ticker-group{gap:25px;padding-right:25px}}
 @media(prefers-reduced-motion:reduce){.ticker-track{animation:none;transform:none}}
-</style><link rel="stylesheet" href="video-hero.css"></head><body>
+</style><link rel="stylesheet" href="video-hero.css?v=20261106b"></head><body>
 <aside class="studio"><a href="#" class="studio-name">P® <span>PICKYOU / PLAYFUL ROMANCE</span></a><div class="tabs" role="group" aria-label="디자인 시안 선택"><button data-theme="romance" aria-pressed="true">01 <span>Bold Romance</span></button><button data-theme="editorial" aria-pressed="false">02 <span>Quiet Editorial</span></button><button data-theme="play" aria-pressed="false">03 <span>Lucky Playground</span></button></div></aside>
 <div class="study-note"><span id="direction">01 / BOLD ROMANCE — PLAYFUL ROMANCE</span><span>iPhone 16 Pro · 제품 목업 5종</span></div>
 <main class="romance" id="site"><section class="video-hero" id="video-intro" aria-label="Pickyou 브랜드 필름">
@@ -29,13 +29,13 @@
 <div class="option-field"><label for="phone-model">휴대폰 기종</label><select id="phone-model" required><option value="" selected disabled>기종을 선택해 주세요</option></select></div>
 <div class="option-field" id="custom-model-field" hidden><label for="custom-model">기종 직접 입력</label><input id="custom-model" type="text" maxlength="80" placeholder="사용하는 기종을 입력해 주세요"></div>
   
-<div class="option-field">
-  <label for="magsafe-option">맥세이프 옵션</label>
-  <select id="magsafe-option">
-    <option value="0">일반 케이스 (추가 금액 없음)</option>
-    <option value="1500">맥세이프 추가 (+1,500원)</option>
-  </select>
-</div>
+<fieldset class="option-field magsafe-field">
+  <legend>맥세이프 옵션</legend>
+  <div class="magsafe-choices">
+    <label class="magsafe-choice"><input type="radio" name="magsafe" value="0" checked><span>일반 케이스 <small>추가 금액 없음</small></span></label>
+    <label class="magsafe-choice"><input type="radio" name="magsafe" value="1500"><span>맥세이프 추가 <small>+1,500원</small></span></label>
+  </div>
+</fieldset>
 
 <div class="option-field quantity-field"><label for="quantity">수량</label><div class="quantity-control"><button type="button" id="quantity-minus" aria-label="수량 줄이기">−</button><input id="quantity" type="number" inputmode="numeric" min="1" max="99" step="1" value="1" required aria-label="수량"><button type="button" id="quantity-plus" aria-label="수량 늘리기">＋</button></div></div>
 <div class="order-summary" aria-live="polite"><div><span>상품금액</span><strong id="product-subtotal"></strong></div><div><span>배송비</span><strong>3,000원</strong></div><div class="order-total"><span>합계</span><strong id="product-total"></strong></div></div>

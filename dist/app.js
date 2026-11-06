@@ -26,7 +26,25 @@ const quantity=document.querySelector('#quantity');
 const customModel=document.querySelector('#custom-model');
 const formatPrice=value=>new Intl.NumberFormat('ko-KR').format(value)+'원';
 let activeProduct=null;
-function updateTotal(){if(!activeProduct)return;const value=Number(quantity.value);const valid=Number.isInteger(value)&&value>=1&&value<=99;document.querySelector('#quantity-minus').disabled=valid&&value===1;document.querySelector('#quantity-plus').disabled=valid&&value===99;if(!valid){document.querySelector('#product-subtotal').textContent='—';document.querySelector('#product-total').textContent='—';return}const subtotal=Number(activeProduct.price.replace(/[^0-9]/g,''))*value;document.querySelector('#product-subtotal').textContent=formatPrice(subtotal);document.querySelector('#product-total').textContent=formatPrice(subtotal+3000)}
+const magsafeRadios=document.querySelectorAll('input[name="magsafe"]');
+function getMagsafePrice(){return Number(document.querySelector('input[name="magsafe"]:checked')?.value||0)}
+function unitPrice(){return Number(activeProduct.price.replace(/[^0-9]/g,''))+getMagsafePrice()}
+function updateTotal(){
+ if(!activeProduct)return;
+ const value=Number(quantity.value);
+ const valid=Number.isInteger(value)&&value>=1&&value<=99;
+ document.querySelector('#quantity-minus').disabled=valid&&value===1;
+ document.querySelector('#quantity-plus').disabled=valid&&value===99;
+ if(!valid){
+  document.querySelector('#product-subtotal').textContent='—';
+  document.querySelector('#product-total').textContent='—';
+  return;
+ }
+ const subtotal=unitPrice()*value;
+ document.querySelector('#product-subtotal').textContent=formatPrice(subtotal);
+ document.querySelector('#product-total').textContent=formatPrice(subtotal+3000);
+}
+magsafeRadios.forEach(radio=>radio.addEventListener('change',updateTotal));
 modelSelect.onchange=()=>{const custom=modelSelect.value==='other';document.querySelector('#custom-model-field').hidden=!custom;customModel.required=custom;if(custom)customModel.focus()};
 quantity.addEventListener('input',updateTotal);quantity.addEventListener('change',()=>{quantity.value=String(Math.max(1,Math.min(99,Math.trunc(Number(quantity.value)||1))));updateTotal()});
 function changeQuantity(delta){quantity.value=String(Math.max(1,Math.min(99,(Math.trunc(Number(quantity.value))||1)+delta)));updateTotal()}
@@ -53,8 +71,9 @@ document.querySelector('#product-cta').onclick=()=>{
  if(!document.querySelector('#product-options').reportValidity())return;
  const model=modelSelect.value==='other'?customModel.value.trim():modelSelect.value;
  const count=Number(quantity.value);
- const subtotal=Number(activeProduct.price.replace(/[^0-9]/g,''))*count;
- showDmGuide(['안녕하세요! ICKYOU 케이스 구매 문의드립니다.','',`제품: ${activeProduct.name}`,`휴대폰 기종: ${model}`,`수량: ${count}개`,`상품금액: ${formatPrice(subtotal)}`,'배송비: 3,000원',`합계: ${formatPrice(subtotal+3000)}`].join('\n'));
+ const subtotal=unitPrice()*count;
+ const magsafeText=getMagsafePrice()===1500?'맥세이프 추가 (+1,500원)':'일반 케이스 (+0원)';
+ showDmGuide(['안녕하세요! ICKYOU 케이스 구매 문의드립니다.','',`제품: ${activeProduct.name}`,`휴대폰 기종: ${model}`,`맥세이프: ${magsafeText}`,`수량: ${count}개`,`상품금액: ${formatPrice(subtotal)}`,'배송비: 3,000원',`합계: ${formatPrice(subtotal+3000)}`,'','배송지: ','연락처: '].join('\n'));
 };
 document.querySelectorAll('a.pill.dark[href="#collection"]').forEach(button=>button.onclick=event=>{event.preventDefault();showDmGuide()});
 dmDialog.querySelector('.close').onclick=()=>dmDialog.close();

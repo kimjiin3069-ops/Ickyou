@@ -73,7 +73,7 @@ document.querySelector('#product-cta').onclick=()=>{
  const count=Number(quantity.value);
  const subtotal=unitPrice()*count;
  const magsafeText=getMagsafePrice()===1500?'맥세이프 추가 (+1,500원)':'일반 케이스 (+0원)';
- showDmGuide(['안녕하세요! ICKYOU 케이스 구매 문의드립니다.','',`제품: ${activeProduct.name}`,`휴대폰 기종: ${model}`,`맥세이프: ${magsafeText}`,`수량: ${count}개`,`상품금액: ${formatPrice(subtotal)}`,'배송비: 3,000원',`합계: ${formatPrice(subtotal+3000)}`].join('\n'));
+ showDmGuide(['안녕하세요! ICKYOU 케이스 구매 문의드립니다.','',`제품: ${activeProduct.name}`,`휴대폰 기종: ${model}`,`맥세이프: ${magsafeText}`,`수량: ${count}개`,`상품금액: ${formatPrice(subtotal)}`,'배송비: 3,000원',`합계: ${formatPrice(subtotal+3000)}`,'','배송지: ','연락처: '].join('\n'));
 };
 document.querySelectorAll('a.pill.dark[href="#collection"]').forEach(button=>button.onclick=event=>{event.preventDefault();showDmGuide()});
 dmDialog.querySelector('.close').onclick=()=>dmDialog.close();
